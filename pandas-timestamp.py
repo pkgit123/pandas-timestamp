@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 # create dataframe
 df_sample = pd.DataFrame({
@@ -19,15 +20,18 @@ print()
 
 # calculate today
 pd_ts_now = pd.Timestamp.now()
-now_year = pd_ts_now.year
-now_date = pd_ts_now.date()
+df_sample['now_year'] = pd_ts_now.year
+df_sample['now_date'] = pd_ts_now.date()
+
+# calculate age in years
+df_sample['age_years'] = (df_sample['now_date'] - df_sample['date_col']) / np.timedelta64(1, 'Y')
 
 print(now_year)
 print(now_date)
 print()
 
 # filter only dates up today
-df_thru_today = df_sample.query(" date_col<=@now_date ")
+df_thru_today = df_sample.query(" date_col<=now_date ")
 
 print("Here is the filter dates sample.")
 print(df_thru_today)
